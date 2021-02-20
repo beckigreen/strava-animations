@@ -1,8 +1,5 @@
----
-title: "Creating Strava animations using rStrava and gganimate 🏊 🚲 🏃"
-output: html_document
----
-<br>
+# Creating Strava animations using rStrava and gganimate 🏊 🚲 🏃
+
 If you want to explore more of the functionalities within the rStrava package, I recommend referring to the comprehensive [rStrava documentation](https://github.com/fawda123/rStrava)  and [this handy blog](https://padpadpadpad.github.io/post/animate-your-strava-activities-using-rstrava-and-gganimate/) by one of the creators.
 
 This project uses functions within the rStrava package and [gganimate](https://github.com/thomasp85/gganimate)/[ggplot2](https://github.com/tidyverse/ggplot2) to animate rides sequentially, and incorporates some design features using [ggtext](https://github.com/wilkelab/ggtext) and [ggimage](https://github.com/GuangchuangYu/ggimage). 
