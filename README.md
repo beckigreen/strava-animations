@@ -4,7 +4,10 @@ If you want to explore more of the functionalities within the rStrava package, I
 
 This project uses functions within the rStrava package and [gganimate](https://github.com/thomasp85/gganimate)/[ggplot2](https://github.com/tidyverse/ggplot2) to animate rides sequentially, and incorporates some design features using [ggtext](https://github.com/wilkelab/ggtext) and [ggimage](https://github.com/GuangchuangYu/ggimage). 
 
-### Getting started  
+
+### Getting started
+- - -
+
 There are a couple of set up steps, which take ~30-60 minutes:
 
 **1. Strava account and API application** - _this allows you to generate an authentication token and pull your data from Strava_.
@@ -23,9 +26,8 @@ There are a couple of set up steps, which take ~30-60 minutes:
 - Click 'Enable'.
 
 ### Kudos 👍
+<div style="width: 50%">![](animations/strava_anim.gif)</div>
 
-![](animations/strava_anim.gif)
-
-
+<div style="width: 50%">![](animations/triathlon_anim.gif)</div>
 
 
