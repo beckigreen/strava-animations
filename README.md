@@ -28,13 +28,13 @@ There are a couple of set up steps, which take ~30-60 minutes:
 ### Kudos 👍
 <div style="width: 30%">
 
-![](https://github.com/beckigreen/strava-animations/blob/main/animations/strava_anim.gif)
+![](animations/compressed_animations/strava_anim.gif)
 
 </div>
 
 <div style="width: 36%">
 
-![](https://github.com/beckigreen/strava-animations/blob/main/animations/triathlon_anim.gif)
+![](animations/compressed_animations/triathlon_anim.gif)
 
 </div>
 
