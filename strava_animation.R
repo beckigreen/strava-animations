@@ -69,7 +69,7 @@ my_acts_ride <- my_acts_ride %>%
   ungroup() %>%
   mutate(n = as.numeric(seq(1, n())))
 
-#Add bike icon for plotting
+#Add bike icon for plotting - this icon link can be replaced with any image link you wish
 image_link <- "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/bicycle_1f6b2.png"
 
 image_link %>% 

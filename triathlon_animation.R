@@ -68,7 +68,7 @@ my_acts_tri <- my_acts_tri %>%
   ungroup() %>%
   mutate(n = as.numeric(seq(1, n())))
 
-#Import & format sport icons for plotting
+#Import & format sport icons for plotting - these icon links can be replaced with any image link you wish
 sport <- list(bike = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/bicycle_1f6b2.png",
      swim = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/woman-swimming_1f3ca-200d-2640-fe0f.png",
      run ="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/woman-running_1f3c3-200d-2640-fe0f.png",
