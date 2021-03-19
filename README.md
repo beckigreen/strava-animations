@@ -26,15 +26,15 @@ There are a couple of set up steps, which take ~30-60 minutes:
 - Click 'Enable'.
 
 ### Kudos 👍
-<div style="width: 50%">
+<div style="width: 30%">
 
 ![](animations/strava_anim.gif)
 
 </div>
 
-<div style="width: 60%">
+<div style="width: 36%">
 
-![](animations/triathlon_anim.gif)
+![](animations/triathlon_anim.gif, )
 
 </div>
 
