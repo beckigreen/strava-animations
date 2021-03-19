@@ -39,7 +39,7 @@ glimpse(my_acts)
 my_acts_filt <- my_acts %>% 
   dplyr::select(c('elapsed_time', 'moving_time', 'distance', 'type', 'map.summary_polyline', 'start_date', 'upload_id')) %>%
   arrange(start_date) %>%
-  mutate(activity_no = as.factor(seq(1, n())),
+  mutate(activity_no = seq(1, n()),
          elapsed_time = elapsed_time/60/60,
          moving_time = moving_time/60/60,
          start_date = gsub("T.*$", '', start_date) %>%
