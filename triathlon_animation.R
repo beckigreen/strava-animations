@@ -71,9 +71,7 @@ my_acts_tri <- my_acts_tri %>%
 #Import & format sport icons for plotting - these icon links can be replaced with any image link you wish
 sport <- list(bike = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/bicycle_1f6b2.png",
      swim = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/woman-swimming_1f3ca-200d-2640-fe0f.png",
-     run ="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/woman-running_1f3c3-200d-2640-fe0f.png",
-     transit1 ="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/woman-running_1f3c3-200d-2640-fe0f.png",
-     transit2 ="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/woman-running_1f3c3-200d-2640-fe0f.png")
+     run ="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/woman-running_1f3c3-200d-2640-fe0f.png")
 
 for (i in names(sport)){
   image_read(sport[[i]]) %>%
@@ -82,18 +80,12 @@ for (i in names(sport)){
 }
 
 #Store icons in image column
-transition_no <- my_acts_tri %>% 
-  filter(type == "Workout") %>% 
-  distinct(activity_no) 
-
 my_acts_tri <- my_acts_tri %>% 
   mutate(image = case_when(
   type == "Swim" ~ "swim_logo.png",
   type == "Ride" ~ "bike_logo.png",
-  type == "Run" ~ "run_logo.png",
-  type == "Workout" & activity_no == transition_no[[1,1]] ~ "transit1_logo.png",
-  type == "Workout" & activity_no == transition_no[[2,1]] ~ "transit2_logo.png"))
-  
+  type == "Run" | type == "Workout" ~ "run_logo.png"))
+
 #Get map background
 bbox <- ggmap::make_bbox(lon, lat, data = my_acts_tri, f = 0.1)
 map <- get_map(location = bbox, source = 'google', maptype = 'terrain')
@@ -107,7 +99,7 @@ plot_titles <- list(
 #Plot
 p = ggmap(map) +
   geom_path(data = my_acts_tri, aes(x = lon, y = lat, col = activity_no), size=0.7, alpha = 0.6) +
-  geom_image(data = my_acts_tri, aes(image = image), size = 0.05) + 
+  geom_image(data = my_acts_tri, aes(image = image, group = activity_no), size = 0.05) + 
   transition_reveal(n, keep_last = F) +   
   scale_color_brewer(palette = "Set1") + 
   labs(title = plot_titles$title, subtitle = plot_titles$subtitle, caption = plot_titles$caption) +
