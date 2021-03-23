@@ -107,7 +107,7 @@ p = ggmap(map) +
         legend.position="none", axis.text=element_blank(), axis.ticks = element_blank(), 
         axis.title = element_blank(), plot.background = element_rect(fill = "darkorange1"))
 
-animate(p, nframes = 200, fps=12, res=150, h=1200, w=700)
+animate(p, nframes = 200, fps=12, res=150, h=1200, w=700, bg = 'transparent')
 anim_save("animations/strava_anim.gif")
 
 ########END########
