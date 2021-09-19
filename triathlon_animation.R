@@ -1,5 +1,8 @@
-########START########
+###############################
+##### Triathlon animation #####
+###############################
 
+#### LIBRARIES ####
 #Extracting and compiling Strava data
 library(rStrava) 
 
@@ -17,6 +20,9 @@ library(ggtext)
 library(RColorBrewer)
 library(magick) 
 
+#### SET UP ####
+#See Getting Started in README for further info
+
 #Strava API - this needs to be filled in with your unique information
 app_name <- 'xxxxx' 
 app_client_id  <- 'xxxxx' 
@@ -26,18 +32,23 @@ athlete_id <- 'xxxxx'
 #Google API -  this needs to be filled in with your unique information
 google_key <- 'xxxxxxxxxx' 
 
-#Strava token
+#Get Strava token
+#this will open a tab where you can authorise access
 stoken <- httr::config(token = strava_oauth(app_name, app_client_id, app_secret, app_scope="activity:read_all", cache=T))
+
+#### LOAD DATA ####
+#Retrieve athlete data
 myinfo <- get_athlete(stoken, athlete_id)
 
-#Importing data
+#Retrieve activity data
 my_acts <- get_activity_list(stoken)
 my_acts <- compile_activities(my_acts)
 glimpse(my_acts)
 
-#Filtering data and converting variables into readable formats
+#### PREPROCESS DATA ####
+#Filtering data and converting variables into usable formats
 my_acts_filt <- my_acts %>% 
-  dplyr::select(c('elapsed_time', 'moving_time', 'distance', 'type', 'map.summary_polyline', 'start_date', 'upload_id')) %>%
+  dplyr::select(c('elapsed_time', 'moving_time', 'distance', 'type', 'map.summary_polyline', 'start_date')) %>%
   arrange(start_date) %>%
   mutate(activity_no = seq(1, n()),
          elapsed_time = elapsed_time/60/60,
@@ -48,7 +59,7 @@ my_acts_filt <- my_acts %>%
          day = format(start_date, "%d"),
          year = format(start_date, "%Y")) %>%
   mutate_at(c('elapsed_time', 'moving_time', 'distance', 'month', 'day', 'year'), as.numeric) %>%
-  mutate_at(c('activity_no', 'upload_id', 'type'), as.factor)
+  mutate_at(c('activity_no', 'type'), as.factor)
 
 #Checking
 sapply(my_acts_filt, class) 
@@ -63,10 +74,10 @@ my_acts_tri <- my_acts_tri %>%
   filter(!is.na(map.summary_polyline)) %>%
   group_by(activity_no) %>%
   nest() %>%
-  mutate(coords = map(data, function(x) get_latlon(x$map.summary_polyline, key=google_key))) %>%
+  mutate(coords = map(data, function(x) get_latlon(x$map.summary_polyline, key=google_key))) %>% #get latitude and longitude
   unnest(., c(data, coords)) %>%
   ungroup() %>%
-  mutate(n = as.numeric(seq(1, n())))
+  mutate(n = as.numeric(seq(1, n()))) #time sequence
 
 #Import & format sport icons for plotting - these icon links can be replaced with any image link you wish
 sport <- list(bike = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/bicycle_1f6b2.png",
@@ -75,20 +86,20 @@ sport <- list(bike = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com
 
 for (i in names(sport)){
   image_read(sport[[i]]) %>%
-    image_transparent('white') %>%
-    image_write(path = paste0(i, "_logo.png"))
+    image_transparent('white') %>% #remove background
+    image_write(path = paste0(i, "_logo.png")) #write to image to read in
 }
 
-#Store icons in image column
 my_acts_tri <- my_acts_tri %>% 
   mutate(image = case_when(
   type == "Swim" ~ "swim_logo.png",
   type == "Ride" ~ "bike_logo.png",
   type == "Run" | type == "Workout" ~ "run_logo.png"))
 
+#### CREATE ANIMATION ####
 #Get map background
 bbox <- ggmap::make_bbox(lon, lat, data = my_acts_tri, f = 0.1)
-map <- get_map(location = bbox, source = 'google', maptype = 'terrain')
+map <- get_map(location = bbox)
 
 #Labels
 plot_titles <- list(
